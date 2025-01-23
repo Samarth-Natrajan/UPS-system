@@ -15,7 +15,8 @@ const checkUserExists = async (req,res,next) => {
           }
         });
       }
-      const user = await User.findOne({userId});
+      console.log(userId);
+      const user = await User.findOne({_id:userId});
       if(!user){
         return res.status(404).json({
           error:{
