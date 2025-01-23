@@ -36,36 +36,23 @@ router.post("/user-roles",async(req,res)=>{
         });
     }
 })
-router.get("/user-roles", async (req, res) => { // incomplete
+router.get("/user-roles", async (req, res) => {
     try {
-      const { userId, roleId } = req.query;
-  
-      let filter = {};
-  
-      if (userId) {
-        filter.userId = userId;
-      }
-      if (roleId) {
-        filter.roleId = roleId;
-      }
-      console.log(userId,roleId,filter)
-  
-      
+      const { query } = req.query;
+        
       const userRoles = await UserRoleAssign.find({
-        userId:userId,
-        roleId:roleId
+        $or: [
+          { userId:query }, //  search on the userId
+          { roleId:query }, //  search on the roleId
+        ],
       })
-        // .populate("userId", "name email status") // Populating user details (name, email, status)
-        // .populate("roleId", "name description"); // Populating role details (name, description)
-  
-      // If no user-role assignments are found
       if (userRoles.length === 0) {
         return res.status(404).json({
           message: "No user-role assignments found",
         });
       }
   
-      // Return the filtered user-role assignments
+      
       res.json({
         data: {
           userRoles,
