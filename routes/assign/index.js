@@ -7,7 +7,8 @@ const checkUserExists = require("../../middleware");
 router.post("/user-roles",async(req,res)=>{   
     try {
         const {userId,roleId} = req.body;
-        const userRole = UserRoleAssign.findOne({userId,roleId});
+        const userRole = await UserRoleAssign.findOne({userId,roleId});
+        console.log(userId,roleId);
         
         if (userRole)
             return res.status(400).json({
