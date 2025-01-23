@@ -32,7 +32,7 @@ router.get("/users",async (req,res)=>{
       }
     
 })
-router.get("/users/:id",async(req,res)=>{
+router.get("/users/:id",checkUserExists,async(req,res)=>{
     try{
         const {id} = req.params;
         console.log(id)
@@ -157,7 +157,7 @@ router.get("/search",async(req,res)=>{
         });
       }
 })
-router.put("/users/:id",async(req,res)=>{
+router.put("/users/:id",checkUserExists,async(req,res)=>{
   try {
       const {id} = req.params
       const {name,email,status} = req.body;

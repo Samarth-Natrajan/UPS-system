@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 require("dotenv").config();
 const UserRoleAssign = require("../../models/UserRoleAssign");
+const checkUserExists = require("../../middleware");
 
 router.post("/user-roles",async(req,res)=>{   
     try {
@@ -68,7 +69,7 @@ router.get("/user-roles", async (req, res) => {
       });
     }
 });
-router.delete("/user-roles/:id",async(req,res)=>{
+router.delete("/user-roles/:id",checkUserExists,async(req,res)=>{
   try {
       const {id} = req.params;
       const result = await UserRoleAssign.deleteMany({userId: id });
