@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 require("dotenv").config();
-const User = require("../../models/User")
+const User = require("../../models/User");
+const checkUserExists = require("../../middleware");
 
 router.get("/users",async (req,res)=>{
     try{
@@ -96,7 +97,7 @@ router.post("/users",async (req,res)=>{
       }
 })
 
-router.delete("/users/:id",async(req,res)=>{
+router.delete("/users/:id",checkUserExists,async(req,res)=>{
     try {
         const {id} = req.params;
         const user = await User.findByIdAndUpdate(
